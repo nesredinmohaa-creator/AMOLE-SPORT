@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AmoleBet | Ethiopia's Premium Betting & Casino Platform</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts (Inter & Orbitron) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['Orbitron', 'monospace'],
+          },
+          colors: {
+            brandDark: '#080512',
+            brandPurple: '#110a28',
+            brandGold: '#f59e0b',
+            brandRed: '#ef4444',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #080512;
+      font-family: 'Inter', sans-serif;
+    }
+    .glass {
+      background: rgba(17, 10, 40, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glow-gold {
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.25);
+    }
+    /* Hide scrollbar */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="text-white min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+  <!-- ================= AUTHENTICATION / LANDING CONTAINER ================= -->
+  <div id="auth-page" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-radial from-brandPurple to-brandDark">
+    <div class="max-w-md w-full glass rounded-[2.5rem] p-8 shadow-2xl flex flex-col gap-6 border border-white/10 relative overflow-hidden">
+      
+      <!-- Aesthetic background glow circles -->
+      <div class="absolute -top-12 -left-12 w-32 h-32 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-12 -right-12 w-32 h-32 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="text-center">
+        <div class="inline-block bg-amber-500/10 px-4 py-2 rounded-2xl border border-amber-500/20 mb-3">
+          <span class="text-2xl font-black tracking-widest text-amber-500 font-mono">AMOLE<span class="text-white">BET</span></span>
+        </div>
+        <h2 class="text-xl font-extrabold text-white">Ethiopian Premier Gaming Port</h2>
+        <p class="text-xs text-gray-400 mt-1.5">Enter details below to access or create your profile</p>
+      </div>
+
+      <!-- Log Form -->
+      <div class="flex flex-col gap-4">
+        <div>
+          <label class="text-[10px] text-gray-400 font-black tracking-wider block mb-1">MOBILE PHONE NUMBER</label>
+          <div class="flex items-center bg-black/40 rounded-2xl border border-white/10 px-4 py-3 focus-within:border-amber-500 transition-all">
+            <span class="text-sm font-bold text-gray-500 mr-2 border-r border-white/10 pr-2">+251</span>
+            <input type="tel" id="auth-phone" placeholder="9xxxxxxxx or 7xxxxxxxx" class="bg-transparent text-sm w-full text-white focus:outline-none font-bold">
+          </div>
+        </div>
+
+        <div>
+          <label class="text-[10px] text-gray-400 font-black tracking-wider block mb-1">PASSWORD</label>
+          <input type="password" id="auth-password" placeholder="••••••••" class="w-full bg-black/40 text-sm p-4 rounded-2xl border border-white/10 focus:outline-none focus:border-amber-500 font-bold tracking-widest">
+        </div>
+
+        <button onclick="executeLogin()" class="w-full bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-600 hover:to-yellow-500 text-black font-black py-4 rounded-2xl transition duration-150 active:scale-95 text-xs tracking-widest shadow-lg shadow-amber-500/10">
+          ENTER CASINO
+        </button>
+      </div>
+
+      <div class="text-center text-[10px] text-gray-500 leading-relaxed px-4">
+        AmoleBet accepts users strictly 18 years and above. Practice responsible gambling.
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MAIN SITE / USER INTERFACE CONTAINER ================= -->
+  <div id="web-app" class="hidden flex-col min-h-screen">
+
+    <!-- DESKTOP / MOBILE HEADER NAVBAR -->
+    <nav class="sticky top-0 z-40 bg-brandDark/95 border-b border-white/5 py-4 px-4 md:px-8 flex justify-between items-center max-w-7xl w-full mx-auto">
+      <div class="flex items-center gap-6">
+        <h1 class="text-2xl font-black tracking-widest text-amber-500 font-mono cursor-pointer" onclick="switchTab('games')">AMOLE<span class="text-white">BET</span></h1>
+        
+        <!-- Desktop Nav Items -->
+        <div class="hidden md:flex items-center gap-4 text-xs font-bold text-gray-300">
+          <button onclick="switchTab('games')" class="hover:text-amber-500 transition px-3 py-2 rounded-lg">🕹️ Play Games</button>
+          <button onclick="switchTab('cashier')" class="hover:text-amber-500 transition px-3 py-2 rounded-lg">💳 Cashier</button>
+          <button onclick="switchTab('history')" class="hover:text-amber-500 transition px-3 py-2 rounded-lg">📋 Logs</button>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <!-- Balance Pill -->
+        <div class="bg-amber-500/10 border border-amber-500/20 px-4 py-2 rounded-2xl text-right">
+          <span class="text-[9px] text-gray-400 block font-bold leading-none uppercase">Main Wallet</span>
+          <span class="text-sm font-black text-amber-500"><span id="balance-val">100.00</span> <span class="text-[10px]">ETB</span></span>
+        </div>
+
+        <!-- Deposit Action Quick Button -->
+        <button onclick="switchTab('cashier'); selectCashierSub('deposit')" class="hidden md:block bg-amber-500 hover:bg-amber-600 text-black font-extrabold text-xs px-5 py-2.5 rounded-xl transition active:scale-95">
+          Quick Deposit
+        </button>
+
+        <!-- Profile Log Out Button -->
+        <button onclick="executeLogout()" class="text-xs text-gray-400 hover:text-white bg-white/5 px-3 py-2.5 rounded-xl border border-white/5 transition">
+          🚪 Exit
+        </button>
+      </div>
+    </nav>
+
+    <!-- MAIN BODY SECTION -->
+    <main class="max-w-7xl w-full mx-auto px-4 md:px-8 py-6 flex-1 flex flex-col gap-6">
+
+      <!-- ================= TAB 1: GAMES ARENA ================= -->
+      <section id="tab-games" class="tab-content flex flex-col gap-6">
+        
+        <!-- Interactive promo card slider -->
+        <div class="bg-gradient-to-r from-purple-900/60 to-brandPurple rounded-[2rem] p-6 md:p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border border-purple-500/15 relative overflow-hidden">
+          <div class="absolute -right-24 -bottom-24 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div>
+            <span class="bg-amber-500 text-black text-[9px] font-black px-2 py-0.5 rounded uppercase tracking-wider">EXCLUSIVE PROMOTION</span>
+            <h2 class="text-xl md:text-2xl font-black mt-2 leading-tight">100% Top-Up Match via Telebirr</h2>
+            <p class="text-xs text-gray-400 mt-1 max-w-lg">Double your gaming reserves instantly on every payment transfer processed to Telebirr merchant recipient <span class="text-amber-500 font-bold">Shamil</span>.</p>
+          </div>
+          <button onclick="switchTab('cashier'); selectCashierSub('deposit')" class="bg-amber-500 hover:bg-amber-600 text-black font-black text-xs px-6 py-3.5 rounded-2xl transition shadow-lg shrink-0">
+            LOAD FUNDS NOW
+          </button>
+        </div>
+
+        <!-- Horizontal Game Tab Switcher -->
+        <div class="flex gap-2 overflow-x-auto no-scrollbar border-b border-white/5 pb-2">
+          <button onclick="selectGame('crash')" id="btn-g-crash" class="px-6 py-3 rounded-full text-xs font-black bg-amber-500 text-black transition">✈️ Aviator (Crash)</button>
+          <button onclick="selectGame('color')" id="btn-g-color" class="px-6 py-3 rounded-full text-xs font-black bg-white/5 text-gray-300 hover:bg-white/10 transition">🎨 Color Prediction</button>
+          <button onclick="selectGame('wheel')" id="btn-g-wheel" class="px-6 py-3 rounded-full text-xs font-black bg-white/5 text-gray-300 hover:bg-white/10 transition">🎰 Lucky Slots</button>
+        </div>
+
+        <!-- ───── GAME 1: AVIATOR CRASH (DYNAMIC CANVAS DRAWING) ───── -->
+        <div id="game-crash" class="game-view flex flex-col lg:flex-row gap-6">
+          
+          <!-- Screen / Arena -->
+          <div class="flex-1 glass rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden min-h-[350px]">
+            <div class="flex justify-between items-center z-10">
+              <span class="text-[9px] bg-red-600 text-white font-black px-2.5 py-0.5 rounded-full tracking-widest">LIVE MULTIPLIER</span>
+              <span id="aviator-history-pills" class="flex gap-1.5 text-[9px] font-mono text-gray-400">Past: 1.25x, 3.42x, 1.05x</span>
+            </div>
+
+            <!-- Canvas Drawing Space -->
+            <div class="relative w-full h-48 flex items-center justify-center my-4">
+              <canvas id="aviator-canvas" class="absolute inset-0 w-full h-full bg-[#05030d] rounded-2xl border border-white/5"></canvas>
+              <!-- Glowing digital numbers overlay -->
+              <h1 id="crash-multiplier" class="absolute text-5xl md:text-6xl font-black text-amber-500 font-mono tracking-tight transition-all duration-75">1.00x</h1>
+              <p id="crash-flew-label" class="absolute hidden text-red-500 font-black text-2xl tracking-widest uppercase">Flew Away!</p>
+            </div>
+
+            <!-- Controller row -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 z-10">
+              <div class="flex items-center bg-black/40 border border-white/10 rounded-2xl px-4">
+                <span class="text-xs text-gray-400 font-bold mr-3">BET</span>
+                <input type="number" id="crash-bet-amount" placeholder="ETB Amount" class="bg-transparent text-sm w-full text-white font-extrabold focus:outline-none">
+              </div>
+              <button onclick="handleAviatorBet()" id="crash-action-btn" class="bg-red-600 hover:bg-red-700 text-white font-black text-xs py-4 rounded-2xl transition active:scale-95 shadow-lg">
+                PLACE BET
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ───── GAME 2: COLOR PREDICTION ───── -->
+        <div id="game-color" class="game-view hidden flex flex-col gap-6">
+          <div class="glass rounded-3xl p-6 flex flex-col gap-6">
+            <div class="flex justify-between items-center">
+              <div>
+                <h3 class="font-extrabold text-base text-amber-500">Traditional Color Arena</h3>
+                <p class="text-xs text-gray-400">Match the rolling color of the period to multiply bets</p>
+              </div>
+              <span id="color-countdown" class="text-xs font-mono bg-black/40 text-amber-500 px-3 py-1 rounded-full font-black">00:24</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <button onclick="betColor('green')" class="bg-green-600 hover:brightness-110 py-5 rounded-2xl font-black text-sm tracking-wider transition active:scale-95">GREEN (2.0x)</button>
+              <button onclick="betColor('violet')" class="bg-purple-600 hover:brightness-110 py-5 rounded-2xl font-black text-sm tracking-wider transition active:scale-95">VIOLET (4.5x)</button>
+              <button onclick="betColor('red')" class="bg-red-600 hover:brightness-110 py-5 rounded-2xl font-black text-sm tracking-wider transition active:scale-95">RED (2.0x)</button>
+            </div>
+
+            <div class="bg-black/30 rounded-2xl p-4 border border-white/5 flex flex-col md:flex-row justify-between items-center gap-3">
+              <span class="text-xs font-bold text-gray-400 uppercase">Input Color Bet Stake (ETB):</span>
+              <input type="number" id="color-bet-amount" placeholder="Stake Amount" class="bg-black/50 text-center font-black text-amber-500 border border-white/10 rounded-xl px-4 py-2 w-full md:w-48 focus:outline-none">
+            </div>
+          </div>
+        </div>
+
+        <!-- ───── GAME 3: LUCKY WHEEL / SLOTS ───── -->
+        <div id="game-wheel" class="game-view hidden flex flex-col gap-6">
+          <div class="glass rounded-3xl p-6 flex flex-col items-center gap-6">
+            <div class="text-center">
+              <h3 class="font-black text-lg text-amber-500">Golden Amole Slot Machine</h3>
+              <p class="text-xs text-gray-400">Match icons on the reels to trigger standard cash payouts</p>
+            </div>
+
+            <!-- Slot interface slots -->
+            <div class="flex gap-4 bg-black/60 border border-white/10 p-6 rounded-3xl font-mono text-5xl md:text-6xl leading-none">
+              <span id="slot-1" class="transition-all duration-75">🍋</span>
+              <span id="slot-2" class="transition-all duration-75">🍊</span>
+              <span id="slot-3" class="transition-all duration-75">🍒</span>
+            </div>
+
+            <div class="w-full max-w-md grid grid-cols-2 gap-3">
+              <div class="bg-black/30 p-3 rounded-2xl border border-white/5 flex items-center justify-between px-4">
+                <span class="text-xs text-gray-400 font-bold">Spin Cost:</span>
+                <span class="text-xs font-black text-amber-500">20.00 ETB</span>
+              </div>
+              <button onclick="triggerSlotSpin()" class="bg-amber-500 hover:bg-amber-600 text-black font-black text-xs rounded-2xl transition active:scale-95 shadow-lg">
+                SPIN WHEEL
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ================= TAB 2: CASHIER GATEWAY ================= -->
+      <section id="tab-cashier" class="tab-content hidden flex flex-col gap-6">
+        
+        <!-- Cashier inner navigation -->
+        <div class="grid grid-cols-2 gap-2 bg-black/40 border border-white/5 p-1.5 rounded-2xl">
+          <button onclick="selectCashierSub('deposit')" id="btn-cashier-deposit" class="py-3 rounded-xl text-xs font-black bg-amber-500 text-black transition">Deposit Portal</button>
+          <button onclick="selectCashierSub('withdraw')" id="btn-cashier-withdraw" class="py-3 rounded-xl text-xs font-black text-gray-400 hover:bg-white/5 transition">Withdraw Portal</button>
+        </div>
+
+        <!-- DEPOSIT OPTIONS -->
+        <div id="cashier-deposit" class="cashier-view flex flex-col gap-6">
+          <div class="glass rounded-3xl p-6 flex flex-col gap-5">
+            <div>
+              <span class="text-[9px] bg-green-500/20 text-green-400 border border-green-500/30 px-2 py-0.5 rounded font-black tracking-widest uppercase">AUTOMATED DIRECT TRANSFER</span>
+              <h3 class="font-extrabold text-base mt-2">Telebirr Mobile Deposit System</h3>
+              <p class="text-xs text-gray-400 mt-1">Transfer funds directly to the Telebirr verification recipient merchant and enter the Transaction ID below.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+              <div class="bg-black/30 p-5 rounded-2xl border border-white/10 flex flex-col gap-3">
+                <p class="text-xs text-gray-300">1. Open your <span class="font-bold text-white">Telebirr app</span> or dial <span class="font-bold text-white">*127#</span></p>
+                <p class="text-xs text-gray-300">2. Execute a payment transfer to the following broker recipient:</p>
+                
+                <div class="bg-[#05030d] p-4 rounded-xl border border-white/5 text-center flex flex-col gap-1 font-mono">
+                  <span class="text-[10px] text-gray-400">Beneficiary Number:</span>
+                  <span class="text-lg text-amber-500 font-black tracking-widest">0935140409</span>
+                  <span class="text-[10px] text-gray-400 mt-1">Beneficiary Name:</span>
+                  <span class="text-xs text-white font-bold uppercase">Shamil</span>
+                </div>
+              </div>
+
+              <!-- Input Payment Form -->
+              <div class="flex flex-col gap-3">
+                <div>
+                  <label class="text-[10px] text-gray-400 font-bold block mb-1">DEPOSIT AMOUNT (ETB)</label>
+                  <input type="number" id="deposit-amount" placeholder="Minimum 50 ETB" class="w-full bg-black/40 text-xs text-white p-3.5 rounded-xl border border-white/10 focus:outline-none focus:border-amber-500 font-bold">
+                </div>
+                <div>
+                  <label class="text-[10px] text-gray-400 font-bold block mb-1">TELEBIRR TRANSACTION REFERENCE ID</label>
+                  <input type="text" id="deposit-ref" placeholder="Paste Telebirr Ref (e.g., TXN184...)" class="w-full bg-black/40 text-xs text-white p-3.5 rounded-xl border border-white/10 focus:outline-none focus:border-amber-500 font-mono font-bold uppercase">
+                </div>
+                <button onclick="executeDepositSubmit()" class="w-full bg-green-600 hover:bg-green-500 text-white font-black text-xs py-4 rounded-xl transition active:scale-95">
+                  SUBMIT PAYMENT SLIP
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WITHDRAWAL OPTIONS -->
+        <div id="cashier-withdraw" class="cashier-view hidden flex flex-col gap-6">
+          <div class="glass rounded-3xl p-6 flex flex-col gap-5">
+            <div>
+              <span class="text-[9px] bg-amber-500/20 text-amber-400 border border-amber-500/30 px-2 py-0.5 rounded font-black tracking-widest uppercase">SAFE SETTLEMENTS</span>
+              <h3 class="font-extrabold text-base mt-2">Withdraw to Any Ethiopian Bank</h3>
+              <p class="text-xs text-gray-400 mt-1">Transfer your cashout balances directly to your personal commercial banking accounts.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="flex flex-col gap-3">
+                <div>
+                  <label class="text-[10px] text-gray-400 font-bold block mb-1">SELECT BANK</label>
+                  <select id="withdraw-bank" class="w-full bg-black/40 text-xs text-white p-3.5 rounded-xl border border-white/10 focus:outline-none focus:border-amber-500 font-bold">
+                    <option value="CBE">Commercial Bank of Ethiopia (CBE)</option>
+                    <option value="Awash">Awash Bank</option>
+                    <option value="Dashen">Dashen Bank</option>
+                    <option value="Abyssinia">Bank of Abyssinia</option>
+                    <option value="Telebirr">Telebirr Wallet</option>
+                    <option value="CBO">Cooperative Bank of Oromia</option>
+                    <option value="Hibret">Hibret Bank</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-[10px] text-gray-400 font-bold block mb-1">ACCOUNT HOLDER FULL NAME</label>
+                  <input type="text" id="withdraw-holder" placeholder="Abebe Kebede" class="w-full bg-black/40 text-xs text-white p-3.5 rounded-xl border border-white/10 focus:outline-none focus:border-amber-500 font-bold">
+                </div>
+              </div>
+
+              <div class="flex flex-col gap-3">
+                <div>
+                  <label class="text-[10px] text-gray-400 font-bold block mb-1">ACCOUNT NUMBER</label>
+                  <input type="text" id="withdraw-account" placeholder="Enter banking digits" class="w-full bg-black/40 text-xs text-white p-3.5 rounded-xl border border-white/10 focus:outline-none focus:border-amber-500 font-mono font-bold">
+                </div>
+                <div>
+                  <label class="text-[10px] text-gray-400 font-bold block mb-1">AMOUNT TO WITHDRAW (ETB)</label>
+                  <input type="number" id="withdraw-amount" placeholder="Minimum 100 ETB" class="w-full bg-black/40 text-xs text-white p-3.5 rounded-xl border border-white/10 focus:outline-none focus:border-amber-500 font-bold">
+                </div>
+              </div>
+            </div>
+
+            <button onclick="executeWithdrawSubmit()" class="w-full bg-gradient-to-r from-amber-500 to-yellow-400 text-black font-black text-xs py-4 rounded-xl transition active:scale-95 shadow-lg">
+              REQUEST CASH SETTLEMENT
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ================= TAB 3: LOGS & HISTORY ================= -->
+      <section id="tab-history" class="tab-content hidden flex flex-col gap-6">
+        <div class="glass rounded-3xl p-6">
+          <h3 class="font-extrabold text-base text-amber-500">Transaction Logs & Activity</h3>
+          <p class="text-xs text-gray-400">Review your past deposits, game outcomes, and withdrawals.</p>
+
+          <div id="history-box" class="flex flex-col gap-2.5 mt-5 max-h-[350px] overflow-y-auto no-scrollbar">
+            <!-- Populated dynamically via JS -->
+            <p class="text-xs text-gray-500 py-4 text-center">No transactions recorded yet.</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER LEGAL & COMPLIANCE -->
+    <footer class="bg-[#05030d] border-t border-white/5 py-8 mt-12">
+      <div class="max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+        <div class="flex items-center gap-3">
+          <span class="text-sm font-black text-amber-500 font-mono">AMOLEBET</span>
+          <span class="border-l border-white/10 h-4 block"></span>
+          <span class="font-bold text-gray-400">Licensed Entertainment</span>
+        </div>
+        <p class="text-center md:text-right">&copy; 2026 AmoleBet Group. All rights reserved. Play Responsibly.</p>
+      </div>
+    </footer>
+
+    <!-- STICKY BOTTOM NAVIGATION BAR FOR MOBILE SCREENS -->
+    <nav class="fixed bottom-0 left-0 right-0 p-4 bg-brandDark/95 backdrop-blur-xl border-t border-white/5 flex justify-between items-center z-40 md:hidden max-w-lg mx-auto">
+      <button onclick="switchTab('games')" id="nav-games" class="flex flex-col items-center gap-1 flex-1 text-amber-500 transition">
+        <span class="text-lg">🎮</span>
+        <span class="text-[9px] font-bold">Games</span>
+      </button>
+      <button onclick="switchTab('cashier')" id="nav-cashier" class="flex flex-col items-center gap-1 flex-1 text-gray-400 transition">
+        <span class="text-lg">💰</span>
+        <span class="text-[9px] font-bold">Cashier</span>
+      </button>
+      <button onclick="switchTab('history')" id="nav-history" class="flex flex-col items-center gap-1 flex-1 text-gray-400 transition">
+        <span class="text-lg">📋</span>
+        <span class="text-[9px] font-bold">Logs</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <!-- ================= RUNTIME CORE CODE SCRIPT ================= -->
+  <script>
+    // LOCAL STORAGE DATABASE STATE HANDLERS
+    let walletBalance = parseFloat(localStorage.getItem('amole_balance')) || 1000.00;
+    let userPhone = localStorage.getItem('amole_phone') || "";
+    let isUserLoggedIn = localStorage.getItem('amole_logged') === 'true';
+
+    function initAppState() {
+      if (isUserLoggedIn && userPhone) {
+        document.getElementById('auth-page').classList.add('hidden');
+        document.getElementById('web-app').classList.remove('hidden');
+        updateInterface();
+        initAviatorCanvas(); // Initializing drawing space once open
+      } else {
+        document.getElementById('auth-page').classList.remove('hidden');
+        document.getElementById('web-app').classList.add('hidden');
+      }
+    }
+
+    function executeLogin() {
+      const phoneInput = document.getElementById('auth-phone').value.trim();
+      const pwdInput = document.getElementById('auth-password').value.trim();
+
+      if (!phoneInput || !pwdInput) {
+        alert("Enter your mobile number and password.");
+        return;
+      }
+
+      userPhone = "0" + phoneInput.replace(/^0+/, ''); // Normalization
+      isUserLoggedIn = true;
+      localStorage.setItem('amole_phone', userPhone);
+      localStorage.setItem('amole_logged', 'true');
+      localStorage.setItem('amole_balance', walletBalance);
+
+      initAppState();
+    }
+
+    function executeLogout() {
+      isUserLoggedIn = false;
+      localStorage.removeItem('amole_logged');
+      initAppState();
+    }
+
+    function updateInterface() {
+      document.getElementById('balance-val').innerText = walletBalance.toFixed(2);
+      localStorage.setItem('amole_balance', walletBalance);
+      renderUserActivityLogs();
+    }
+
+    // INTERFACE TAB CONTROLLER
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+      document.querySelectorAll('nav button').forEach(btn => {
+        btn.classList.remove('text-amber-500');
+        btn.classList.add('text-gray-400');
+      });
+
+      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+      // Set desktop nav active colors
+      const navBtnDesk = Array.from(document.querySelectorAll('nav button')).find(btn => btn.innerText.toLowerCase().includes(tabId));
+      if (navBtnDesk) navBtnDesk.classList.add('text-amber-500');
+
+      // Set mobile sticky tab active colors
+      const mobileNavBtn = document.getElementById(`nav-${tabId}`);
+      if (mobileNavBtn) {
+        mobileNavBtn.classList.remove('text-gray-400');
+        mobileNavBtn.classList.add('text-amber-500');
+      }
+    }
+
+    // GAME CONTROLLER SELECTOR
+    function selectGame(gameId) {
+      document.querySelectorAll('.game-view').forEach(g => g.classList.add('hidden'));
+      document.querySelectorAll('#tab-games button').forEach(b => {
+        b.classList.remove('bg-amber-500', 'text-black');
+        b.classList.add('bg-white/5', 'text-gray-300');
+      });
+
+      document.getElementById(`game-${gameId}`).classList.remove('hidden');
+      document.getElementById(`btn-g-${gameId}`).classList.remove('bg-white/5', 'text-gray-300');
+      document.getElementById(`btn-g-${gameId}`).classList.add('bg-amber-500', 'text-black');
+    }
+
+    // CASHIER INTERACTION PORT CONTROLLER
+    function selectCashierSub(mode) {
+      document.querySelectorAll('.cashier-view').forEach(view => view.classList.add('hidden'));
+      document.querySelectorAll('[id^="btn-cashier-"]').forEach(btn => {
+        btn.classList.remove('bg-amber-500', 'text-black');
+        btn.classList.add('text-gray-400', 'hover:bg-white/5');
+      });
+
+      document.getElementById(`cashier-${mode}`).classList.remove('hidden');
+      document.getElementById(`btn-cashier-${mode}`).classList.remove('text-gray-400', 'hover:bg-white/5');
+      document.getElementById(`btn-cashier-${mode}`).classList.add('bg-amber-500', 'text-black');
+    }
+
+    // ================== GAME MODULE 1: DYNAMIC AVIATOR (CANVAS ENGINE) ==================
+    let canvas, ctx;
+    let aviatorActive = false;
+    let aviatorMultiplier = 1.00;
+    let aviatorLoop;
+    let currentBetAmount = 0;
+    let plotPoints = [];
+
+    function initAviatorCanvas() {
+      canvas = document.getElementById('aviator-canvas');
+      if (canvas) {
+        ctx = canvas.getContext('2d');
+        // Fit canvas bounds to container width
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = canvas.parentElement.clientHeight;
+        drawStaticGrid();
+      }
+    }
+
+    function drawStaticGrid() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
+      ctx.lineWidth = 1;
+
+      // Vertical line rules
+      for (let i = 50; i < canvas.width; i += 50) {
+        ctx.beginPath();
+        ctx.moveTo(i, 0);
+        ctx.lineTo(i, canvas.height);
+        ctx.stroke();
+      }
+      // Horizontal rules
+      for (let i = 40; i < canvas.height; i += 40) {
+        ctx.beginPath();
+        ctx.moveTo(0, i);
+        ctx.lineTo(canvas.width, i);
+        ctx.stroke();
+      }
+    }
+
+    function handleAviatorBet() {
+      const inputVal = parseFloat(document.getElementById('crash-bet-amount').value);
+      const actionBtn = document.getElementById('crash-action-btn');
+
+      if (!aviatorActive) {
+        if (isNaN(inputVal) || inputVal < 10) {
+          alert("Minimum Aviator bet is 10 ETB.");
+          return;
+        }
+        if (inputVal > walletBalance) {
+          alert("Insufficient funds to place Aviator bet.");
+          return;
+        }
+
+        // Lock values
+        walletBalance -= inputVal;
+        currentBetAmount = inputVal;
+        updateInterface();
+
+        aviatorActive = true;
+        aviatorMultiplier = 1.00;
+        plotPoints = [];
+
+        document.getElementById('crash-multiplier').innerText = "1.00x";
+        document.getElementById('crash-multiplier').className = "absolute text-5xl md:text-6xl font-black text-green-400 font-mono tracking-tight";
+        document.getElementById('crash-flew-label').classList.add('hidden');
+
+        actionBtn.innerText = "CASH OUT";
+        actionBtn.className = "bg-green-600 hover:bg-green-700 text-white font-black py-4 rounded-2xl transition active:scale-95 shadow-lg";
+
+        const crashTarget = (Math.random() * 4 + 1.05).toFixed(2);
+
+        aviatorLoop = setInterval(() => {
+          aviatorMultiplier += 0.03;
+          document.getElementById('crash-multiplier').innerText = aviatorMultiplier.toFixed(2) + "x";
+
+          // Calculate point curve
+          const progress = (aviatorMultiplier - 1) / 4; // Normalized target curve
+          const x = 50 + progress * (canvas.width - 100);
+          const y = (canvas.height - 50) - Math.pow(progress, 1.8) * (canvas.height - 100);
+          plotPoints.push({x, y});
+
+          drawFlightCurve();
+
+          if (aviatorMultiplier >= crashTarget) {
+            clearInterval(aviatorLoop);
+            executeCrashCollapse();
+          }
+        }, 100);
+
+      } else {
+        // Safe Cash out
+        clearInterval(aviatorLoop);
+        const winValue = currentBetAmount * aviatorMultiplier;
+        walletBalance += winValue;
+        updateInterface();
+
+        saveActivityLog("🏆", `Aviator Payout (${aviatorMultiplier.toFixed(2)}x)`, `+${winValue.toFixed(2)} ETB`);
+        alert(`Successfully cashed out! Multiplier: ${aviatorMultiplier.toFixed(2)}x | Win payout: ${winValue.toFixed(2)} ETB!`);
+        resetAviatorArena();
+      }
+    }
+
+    function drawFlightCurve() {
+      drawStaticGrid();
+      if (plotPoints.length < 2) return;
+
+      ctx.beginPath();
+      ctx.strokeStyle = "#ef4444";
+      ctx.lineWidth = 4;
+      ctx.shadowBlur = 15;
+      ctx.shadowColor = "#ef4444";
+
+      ctx.moveTo(plotPoints[0].x, plotPoints[0].y);
+      for (let i = 1; i < plotPoints.length; i++) {
+        ctx.lineTo(plotPoints[i].x, plotPoints[i].y);
+      }
+      ctx.stroke();
+
+      // Reset shadows
+      ctx.shadowBlur = 0;
+
+      // Draw the plane head
+      const head = plotPoints[plotPoints.length - 1];
+      ctx.font = "24px sans-serif";
+      ctx.fillText("✈️", head.x - 12, head.y + 8);
+    }
+
+    function executeCrashCollapse() {
+      aviatorActive = false;
+      document.getElementById('crash-multiplier').className = "absolute text-5xl md:text-6xl font-black text-red-500 font-mono tracking-tight";
+      document.getElementById('crash-multiplier').innerText = "CRASHED";
+      document.getElementById('crash-flew-label').classList.remove('hidden');
+
+      saveActivityLog("💥", "Aviator Crash Bust", `-${currentBetAmount.toFixed(2)} ETB`);
+      setTimeout(resetAviatorArena, 3000);
+    }
+
+    function resetAviatorArena() {
+      clearInterval(aviatorLoop);
+      aviatorActive = false;
+      const actionBtn = document.getElementById('crash-action-btn');
+      actionBtn.innerText = "PLACE BET";
+      actionBtn.className = "bg-red-600 hover:bg-red-700 text-white font-black py-4 rounded-2xl transition active:scale-95 shadow-lg";
+      document.getElementById('crash-flew-label').classList.add('hidden');
+      drawStaticGrid();
+    }
+
+    // ================== GAME MODULE 2: COLOR PREDICTION ==================
+    function betColor(predictedColor) {
+      const stakeVal = parseFloat(document.getElementById('color-bet-amount').value);
+      if (isNaN(stakeVal) || stakeVal < 10) {
+        alert("Minimum Color Prediction Bet is 10 ETB.");
+        return;
+      }
+      if (stakeVal > walletBalance) {
+        alert("Insufficient balance.");
+        return;
+      }
+
+      walletBalance -= stakeVal;
+      updateInterface();
+
+      setTimeout(() => {
+        const colorsArr = ['red', 'green', 'violet'];
+        // Simulated roll distribution weights
+        const randomRoll = Math.random();
+        const rolledColor = randomRoll < 0.45 ? 'green' : randomRoll < 0.90 ? 'red' : 'violet';
+
+        if (predictedColor === rolledColor) {
+          const pays = predictedColor === 'violet' ? 4.5 : 2;
+          const cashBack = stakeVal * pays;
+          walletBalance += cashBack;
+          updateInterface();
+
+          saveActivityLog("🎨", `Won Color Play (${rolledColor.toUpperCase()})`, `+${cashBack.toFixed(2)} ETB`);
+          alert(`WINNER! Rolled Color: ${rolledColor.toUpperCase()}! Payout: ${cashBack.toFixed(2)} ETB`);
+        } else {
+          saveActivityLog("🎨", `Lost Color Play (${predictedColor})`, `-${stakeVal.toFixed(2)} ETB`);
+          alert(`Unlucky! Rolled Color was ${rolledColor.toUpperCase()}. Your choice: ${predictedColor.toUpperCase()}.`);
+        }
+      }, 800);
+    }
+
+    // ================== GAME MODULE 3: LUCKY SLOT REELS ==================
+    const reelSet = ["🍋", "🍒", "🍊", "🔔", "💎", "⭐"];
+    function triggerSlotSpin() {
+      const cost = 20;
+      if (walletBalance < cost) {
+        alert("Insufficient balance. 20 ETB required to spin.");
+        return;
+      }
+
+      walletBalance -= cost;
+      updateInterface();
+
+      let counter = 0;
+      const rollTimer = setInterval(() => {
+        document.getElementById('slot-1').innerText = reelSet[Math.floor(Math.random() * reelSet.length)];
+        document.getElementById('slot-2').innerText = reelSet[Math.floor(Math.random() * reelSet.length)];
+        document.getElementById('slot-3').innerText = reelSet[Math.floor(Math.random() * reelSet.length)];
+        counter++;
+
+        if (counter >= 12) {
+          clearInterval(rollTimer);
+          evaluateSlotsResult();
+        }
+      }, 80);
+    }
+
+    function evaluateSlotsResult() {
+      const r1 = document.getElementById('slot-1').innerText;
+      const r2 = document.getElementById('slot-2').innerText;
+      const r3 = document.getElementById('slot-3').innerText;
+
+      if (r1 === r2 && r2 === r3) {
+        const awardValue = 200.00;
+        walletBalance += awardValue;
+        updateInterface();
+        saveActivityLog("🎰", "Slot Match 3 Jackpot", "+200.00 ETB");
+        alert("JACKPOT MATCH! You got 3 identical icons! Won 200.00 ETB!");
+      } else if (r1 === r2 || r2 === r3 || r1 === r3) {
+        const awardValue = 40.00;
+        walletBalance += awardValue;
+        updateInterface();
+        saveActivityLog("🎰", "Slot Match 2 Payout", "+40.00 ETB");
+        alert("Double Match Winner! Won 40.00 ETB!");
+      } else {
+        saveActivityLog("🎰", "Lost Slot Spin", "-20.00 ETB");
+        alert("No match. Try spin again!");
+      }
+    }
+
+    // ================== CASHIER GATEWAY CONTROLLERS ==================
+    function executeDepositSubmit() {
+      const amtVal = parseFloat(document.getElementById('deposit-amount').value);
+      const referenceCode = document.getElementById('deposit-ref').value.trim();
+
+      if (isNaN(amtVal) || amtVal < 50) {
+        alert("Minimum deposit limit is 50 ETB.");
+        return;
+      }
+      if (!referenceCode) {
+        alert("Please provide the unique Telebirr transaction reference ID.");
+        return;
+      }
+
+      alert(`Verification slip for ${amtVal} ETB received. Our automatic gateway node is validating Reference Code: ${referenceCode} against Shamil's merchant logs. Verification takes up to 10 seconds.`);
+
+      saveActivityLog("📥", "Telebirr Deposit (Processing)", `${amtVal.toFixed(2)} ETB`);
+
+      // Mocking verification settlement delay
+      setTimeout(() => {
+        walletBalance += amtVal;
+        updateInterface();
+        saveActivityLog("📥", "Telebirr Payment Approved", `+${amtVal.toFixed(2)} ETB`);
+        alert(`Verified! Payment reference matches Shamil's ledger. ${amtVal} ETB has been credited to your balance.`);
+      }, 10000);
+    }
+
+    function executeWithdrawSubmit() {
+      const bankVal = document.getElementById('withdraw-bank').value;
+      const holder = document.getElementById('withdraw-holder').value.trim();
+      const accountVal = document.getElementById('withdraw-account').value.trim();
+      const amtVal = parseFloat(document.getElementById('withdraw-amount').value);
+
+      if (!holder || !accountVal) {
+        alert("Fill out full account holder names and banking digits.");
+        return;
+      }
+      if (isNaN(amtVal) || amtVal < 100) {
+        alert("Minimum bank withdrawal is 100 ETB.");
+        return;
+      }
+      if (amtVal > walletBalance) {
+        alert("Insufficient balance to fulfill cashout.");
+        return;
+      }
+
+      walletBalance -= amtVal;
+      updateInterface();
+
+      saveActivityLog("🏦", `Withdraw to ${bankVal} (Processing)`, `-${amtVal.toFixed(2)} ETB`);
+      alert(`Withdrawal of ${amtVal} ETB requested. Settlement queue is executing bank validation protocols.`);
+    }
+
+    // ================== LOCAL DB ACTIVITY LOGGER ==================
+    function saveActivityLog(emoji, label, value) {
+      let logs = JSON.parse(localStorage.getItem('amole_we_logs')) || [];
+      const timestamp = new Date().toLocaleTimeString();
+      logs.unshift({ emoji, label, value, timestamp });
+      localStorage.setItem('amole_we_logs', JSON.stringify(logs));
+      renderUserActivityLogs();
+    }
+
+    function renderUserActivityLogs() {
+      const logs = JSON.parse(localStorage.getItem('amole_we_logs')) || [];
+      const container = document.getElementById('history-box');
+
+      if (logs.length === 0) {
+        container.innerHTML = `<p class="text-xs text-gray-500 py-4 text-center">No logs generated yet.</p>`;
+        return;
+      }
+
+      container.innerHTML = logs.map(l => `
+        <div class="flex justify-between items-center bg-white/5 border border-white/5 p-4 rounded-2xl">
+          <div class="flex items-center gap-3">
+            <span class="text-lg">${l.emoji}</span>
+            <div>
+              <p class="font-extrabold text-xs text-white">${l.label}</p>
+              <p class="text-[9px] text-gray-400">${l.timestamp}</p>
+            </div>
+          </div>
+          <span class="font-black text-xs text-amber-500">${l.value}</span>
+        </div>
+      `).join('');
+    }
+
+    // INITIALIZATION RUNTIME START
+    window.onload = () => {
+      initAppState();
+      
+      // Auto-resize canvas handler
+      window.addEventListener('resize', () => {
+        if (canvas) {
+          canvas.width = canvas.parentElement.clientWidth;
+          canvas.height = canvas.parentElement.clientHeight;
+          drawStaticGrid();
+        }
+      });
+    };
+  </script>
+</body>
+</html>
