@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AMOLE-SPORT</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="brand">AMOLE-SPORT</h1>
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#calculator">Bet Calculator</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero container">
+      <h2>Simple Sports Betting &amp; Entertainment</h2>
+      <p>AMOLE-SPORT is a lightweight demo web app for displaying bets, calculating payouts, and showing upcoming events.</p>
+      <a class="btn" href="#calculator">Try Bet Calculator</a>
+    </section>
+
+    <section id="features" class="container features">
+      <h3>Features</h3>
+      <ul>
+        <li>Responsive single-page UI (HTML/CSS/JS)</li>
+        <li>Bet payout calculator (stake × odds)</li>
+        <li>Easy to customize and deploy on GitHub Pages</li>
+      </ul>
+    </section>
+
+    <section id="calculator" class="container calculator">
+      <h3>Bet Calculator</h3>
+      <label>Stake (currency): <input id="stake" type="number" value="10" min="0"></label>
+      <label>Odds (decimal): <input id="odds" type="number" step="0.01" value="1.5" min="0"></label>
+      <button id="calc">Calculate</button>
+      <p id="result">Potential payout: -</p>
+    </section>
+
+    <section id="contact" class="container contact">
+      <h3>Contact</h3>
+      <p>Author: nesredinmohaa-creator</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">© AMOLE-SPORT</div>
+  </footer>
+
+  <script src="/assets/js/app.js"></script>
+</body>
+</html>

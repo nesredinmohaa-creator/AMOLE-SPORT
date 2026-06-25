@@ -1,0 +1,19 @@
+/* Basic styles for AMOLE-SPORT demo */
+:root{--bg:#f7f9fc;--accent:#0b6efd;--muted:#6b7280;--card:#fff}
+*{box-sizing:border-box}
+body{font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;text-rendering:optimizeLegibility;margin:0;background:var(--bg);color:#111}
+.container{max-width:900px;margin:0 auto;padding:24px}
+.site-header{background:linear-gradient(90deg,var(--accent),#3b82f6);color:#fff}
+.site-header .container{display:flex;align-items:center;justify-content:space-between}
+.brand{margin:0;font-size:1.25rem}
+nav a{color:rgba(255,255,255,0.9);margin-left:16px;text-decoration:none}
+.hero{padding:48px 24px;text-align:center}
+.hero h2{margin:0 0 8px}
+.btn{display:inline-block;margin-top:12px;padding:10px 18px;background:var(--accent);color:#fff;border-radius:6px;text-decoration:none}
+.features{background:var(--card);border-radius:8px;margin-top:18px;padding:18px;box-shadow:0 2px 8px rgba(15,23,42,0.06)}
+.calculator{margin-top:18px;background:var(--card);padding:18px;border-radius:8px}
+.calculator label{display:block;margin:8px 0}
+.calculator input{padding:8px;border:1px solid #e5e7eb;border-radius:6px;width:150px}
+#calc{margin-top:8px;padding:8px 12px;background:var(--accent);color:#fff;border:none;border-radius:6px}
+.site-footer{padding:12px;text-align:center;color:var(--muted);margin-top:28px}
+@media(min-width:700px){.hero{padding:64px}}
