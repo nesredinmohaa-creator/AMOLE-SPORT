@@ -1,0 +1,2 @@
+"""'Workflow""","""'Total minutes""","""'Workflow runs""","""'Jobs""","""'Runner type""","""'Runtime OS"""
+"""'.github/workflows/blank.yml""",4,4,1,"""'hosted""","""'linux"""
